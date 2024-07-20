@@ -1,1 +1,21 @@
-h
+import discord
+from discord.ext import commands
+from discord.ext import app_commands
+import os 
+
+class Mod(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command()
+    @commands.has_permission(kick_members=True)
+    async def kick(self, ctx, member: discord.Member, *, reason: str=None):
+        ''' Kicks A Member '''
+
+        await member.kick(reason=reason)
+        em=discord.Embed(title=Moderation, description=f'{member.mention} has been kicked by {ctx.author.mention} for reason: {reason}", color=discord.Color.red())
+
+        await ctx.send(embed=em)
+
+async def setup(bot):
+    await bot.add_cog(Mod(bot))
